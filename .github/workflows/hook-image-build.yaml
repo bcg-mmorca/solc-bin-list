@@ -19,11 +19,11 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
+          driver: docker
           buildkitd-config-inline: |
             [registry."${{ vars.REGISTRY_URL }}"]
               http = true
               insecure = true
-          buildkitd-flags: --config /etc/buildkit/buildkitd.toml
 
       # - name: Add Insecure Docker Registry
       #   run: |
