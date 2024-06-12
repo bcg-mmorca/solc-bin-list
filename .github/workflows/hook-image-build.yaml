@@ -47,6 +47,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: src/docker/Dockerfile
+          file: src/hooks/Dockerfile
           push: false
           tags: ${{ vars.REGISTRY_URL }}/st-baas/quorum-k8s-hooks:latest
