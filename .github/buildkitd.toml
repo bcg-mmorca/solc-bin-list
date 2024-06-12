@@ -124,7 +124,6 @@ insecure-entitlements = [ "network.host", "security.insecure" ]
     http = true
     insecure = true
 
-
 # Frontend control
 [frontend."dockerfile.v0"]
   enabled = true
