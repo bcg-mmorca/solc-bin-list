@@ -37,7 +37,7 @@ jobs:
           context: .
           file: src/docker/Dockerfile
           load: true
-          tags: st-baas/quorum-k8s-hooks:${{ steps.commit.outputs.short }}
+          tags: ${{ env.TEST_TAG }}
     
       - name: Test Image before Push
         run: |
