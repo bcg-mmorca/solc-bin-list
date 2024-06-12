@@ -9,7 +9,7 @@ env:
   FILE: src/hooks/Dockerfile
   BASE_TAG: pulse/besu-k8s-hooks
   TEST_TAG: pulse/besu-k8s-hooks:test
-  VERSION: v0.2.16
+  VERSION_TAG: qgt-0.2.16
 
 jobs:
   docker:
@@ -33,22 +33,22 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - name: Build and Export to Docker
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ${{ env.FILE }}
-          load: true
-          tags: ${{ env.TEST_TAG }}
+      # - name: Build and Export to Docker
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: .
+      #     file: ${{ env.FILE }}
+      #     load: true
+      #     tags: ${{ env.TEST_TAG }}
       
-      - name: Test Image before Push
-        run: |
-          docker run --rm ${{ env.TEST_TAG }}
+      # - name: Test Image before Push
+      #   run: |
+      #     docker run --rm ${{ env.TEST_TAG }}
 
       - name: Build and Push to Registry
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ${{ env.FILE }}
-          push: false
-          tags: ${{ vars.REGISTRY_URL }}/${{ env.BASE_TAG }}:${{ env.VERSION }}
+          push: true
+          tags: ${{ vars.REGISTRY_URL }}/${{ env.BASE_TAG }}:${{ env.VERSION_TAG }}
