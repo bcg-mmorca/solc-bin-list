@@ -35,7 +35,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: src/hooks/Dockerfile
+          file: src/docker/Dockerfile
           load: true
           tags: st-baas/quorum-k8s-hooks:${{ steps.commit.outputs.short }}
     
@@ -47,6 +47,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: src/hooks/Dockerfile
+          file: src/docker/Dockerfile
           push: false
           tags: ${{ vars.REGISTRY_URL }}/st-baas/quorum-k8s-hooks:${{ steps.commit.outputs.short }}
