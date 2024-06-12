@@ -11,9 +11,9 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - name: Get Commit Hash
-        id: commit
-        uses: prompt/actions-commit-hash@v2
+      # - name: Get Commit Hash
+      #   id: commit
+      #   uses: prompt/actions-commit-hash@v2
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
