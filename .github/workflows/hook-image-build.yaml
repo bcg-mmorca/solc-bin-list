@@ -4,6 +4,9 @@ on:
   push:
     branches:
         - main
+env:
+  TEST_TAG: st-baas/quorum-k8s-hooks:test
+
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -20,12 +23,13 @@ jobs:
             [registry."${{ vars.REGISTRY_URL }}"]
               http = true
               insecure = true
+          buildkitd-flags: --config /etc/buildkit/buildkitd.toml
 
-      - name: Insecure Docker Repository
-        run: |
-          sudo truncate -s-2 /etc/docker/daemon.json
-          echo ", \"insecure-registries\": [\"${{ vars.REGISTRY_URL }}\"]}" | sudo tee -a /etc/docker/daemon.json
-          sudo systemctl restart docker
+      # - name: Add Insecure Docker Registry
+      #   run: |
+      #     sudo truncate -s-2 /etc/docker/daemon.json
+      #     echo ", \"insecure-registries\": [\"${{ vars.REGISTRY_URL }}\"]}" | sudo tee -a /etc/docker/daemon.json
+      #     sudo systemctl restart docker
 
       - name: Login to Registry
         uses: docker/login-action@v3
@@ -34,14 +38,21 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - name: Build and push to registry
+      - name: Build and Export to Docker
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          load: true
+          tags: ${{ env.TEST_TAG }}
+    
+      - name: Test Image before Push
+        run: |
+          docker run --rm ${{ env.TEST_TAG }}
+
+      - name: Build and Push to Registry
         uses: docker/build-push-action@v5
         with:
           context: .
           file: src/hooks/Dockerfile
           push: false
-          # tags: st-baas/quorum-k8s-hooks:${{ steps.commit.outputs.short }}
-
-      # - name: Inspect
-      #   run: |
-      #     docker buildx imagetools inspect ${{ secrets.REGISTRY_URL }}/st-baas/quorum-k8s-hooks:latest
+          tags: st-baas/quorum-k8s-hooks:${{ steps.commit.outputs.short }}
