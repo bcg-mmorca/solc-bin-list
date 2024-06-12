@@ -49,4 +49,4 @@ jobs:
           context: .
           file: src/docker/Dockerfile
           push: false
-          tags: ${{ vars.REGISTRY_URL }}/st-baas/quorum-k8s-hooks:${{ steps.commit.outputs.short }}
+          tags: ${{ vars.REGISTRY_URL }}/st-baas/quorum-k8s-hooks:latest
