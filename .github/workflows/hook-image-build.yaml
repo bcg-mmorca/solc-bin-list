@@ -29,7 +29,7 @@ jobs:
           context: .
           file: src/hooks/Dockerfile
           push: false
-          tags: st-baas/quorum-k8s-hooks:${{ steps.commit.outputs.short }}
+          # tags: st-baas/quorum-k8s-hooks:${{ steps.commit.outputs.short }}
 
       # - name: Inspect
       #   run: |
