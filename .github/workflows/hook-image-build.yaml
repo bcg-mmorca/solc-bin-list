@@ -21,6 +21,7 @@ jobs:
         run: |
           ls -la
           pwd
+          cat /etc/docker/daemon.json
           cat ~/.config/buildkit/buildkitd.toml
 
       - name: Login to Registry
