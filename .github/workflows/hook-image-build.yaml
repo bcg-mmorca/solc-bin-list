@@ -21,6 +21,12 @@ jobs:
               http = true
               insecure = true
 
+      - name: Insecure Docker Repository
+        run: |
+          sudo truncate -s-2 /etc/docker/daemon.json
+          echo ", \"insecure-registries\": [\"${{ vars.REGISTRY_URL }}\"]}" | sudo tee -a /etc/docker/daemon.json
+          sudo systemctl restart docker
+
       - name: Login to Registry
         uses: docker/login-action@v3
         with:
