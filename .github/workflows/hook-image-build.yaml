@@ -9,20 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v3
         with:
-          # buildkitd-config: .github/buildkitd.toml
-          config-inline: |
+          buildkitd-config-inline: |
             [registry."${{ vars.REGISTRY_URL }}"]
               http = true
               insecure = true
-
-      - name: Check buildx config
-        run: |
-          ls -la
-          pwd
-          cat /etc/docker/daemon.json
-          cat ~/.config/buildkit/buildkitd.toml
 
       - name: Login to Registry
         uses: docker/login-action@v1
