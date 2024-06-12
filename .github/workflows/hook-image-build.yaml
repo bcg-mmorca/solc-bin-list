@@ -4,8 +4,6 @@ on:
   push:
     branches:
         - main
-env:
-  TEST_TAG: st-baas/quorum-k8s-hooks:test
 
 jobs:
   docker:
@@ -30,18 +28,6 @@ jobs:
           registry: ${{ vars.REGISTRY_URL }}
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
-
-      # - name: Build and Export to Docker
-      #   uses: docker/build-push-action@v5
-      #   with:
-      #     context: .
-      #     file: src/docker/Dockerfile
-      #     load: true
-      #     tags: ${{ env.TEST_TAG }}
-
-      # - name: Test Image before Push
-      #   run: |
-      #     docker run --rm ${{ env.TEST_TAG }}
 
       - name: Build and Push to Registry
         uses: docker/build-push-action@v5
