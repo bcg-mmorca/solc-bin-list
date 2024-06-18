@@ -1,21 +1,21 @@
-name: build-hook-image
+name: Docker Build (smart-contract-verifier)
 
 on:
   push:
     branches:
-        - hooks
+      - 'main'
 
 env:
-  FILE: src/hooks/Dockerfile
-  BASE_TAG: pulse/besu-k8s-hooks
-  TEST_TAG: pulse/besu-k8s-hooks:test
-  VERSION_TAG: qgt-0.2.16
+  BASE_TAG: pulse/blockscout-smart-contract-verifier
+  VERSION_TAG: v1.8.0
 
 jobs:
-  docker:
+  push:
+    name: Docker build and docker push
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -38,22 +38,10 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      # - name: Build and Export to Docker
-      #   uses: docker/build-push-action@v5
-      #   with:
-      #     context: .
-      #     file: ${{ env.FILE }}
-      #     load: true
-      #     tags: ${{ env.TEST_TAG }}
-      
-      # - name: Test Image before Push
-      #   run: |
-      #     docker run --rm ${{ env.TEST_TAG }}
-
-      - name: Build and Push to Registry
+      - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ${{ env.FILE }}
+          context: "smart-contract-verifier"
+          file: "smart-contract-verifier/smart-contract-verifier-server/Dockerfile"
           push: false
           tags: ${{ vars.REGISTRY_URL }}/${{ env.BASE_TAG }}:${{ env.VERSION_TAG }}
