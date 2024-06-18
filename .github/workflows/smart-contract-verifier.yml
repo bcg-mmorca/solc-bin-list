@@ -43,5 +43,5 @@ jobs:
         with:
           context: "smart-contract-verifier"
           file: "smart-contract-verifier/smart-contract-verifier-server/Dockerfile"
-          push: false
+          push: true
           tags: ${{ vars.REGISTRY_URL }}/${{ env.BASE_TAG }}:${{ env.VERSION_TAG }}
