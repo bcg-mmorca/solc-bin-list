@@ -20,7 +20,7 @@ jobs:
       - name: Get commit messages
         run: |
           COMMIT_MESSAGES=""
-          length=$(jq length <<< '${{ toJSON(github.event.commits) }}')
+          length=$(jq length <<< "${{ toJSON(github.event.commits) }}")
 
           for (( i = 0; i < $length; i++ )); do
             author=$(echo '${{ toJSON(github.event.commits) }}' | jq ".[$i].author.name")
