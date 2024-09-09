@@ -23,6 +23,7 @@ jobs:
           commits=${{ toJSON(github.event.commits) }}
           echo $commits
           length=$(jq length <<< $commits)
+          echo $length
 
           for (( i = 0; i < $length; i++ )); do
             author=$(echo $commits | jq ".[$i].author.name")
