@@ -21,9 +21,9 @@ jobs:
         run: |
           COMMIT_MESSAGES=""
           commits=${{ toJSON(github.event.commits) }}
-          echo $commits
+          echo ${commits}
           length=$(jq length <<< $commits)
-          echo $length
+          echo ${length}
 
           for (( i = 0; i < $length; i++ )); do
             author=$(echo $commits | jq ".[$i].author.name")
