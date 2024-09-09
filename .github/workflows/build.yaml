@@ -20,6 +20,8 @@ jobs:
       - name: Get commit messages
         run: |
           COMMIT_MESSAGES=""
+          commits="${{ toJSON(github.event.commits) }}"
+          echo $commits
           length=$(jq length <<< "${{ toJSON(github.event.commits) }}")
 
           for (( i = 0; i < $length; i++ )); do
