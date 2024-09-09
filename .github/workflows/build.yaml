@@ -18,9 +18,10 @@ jobs:
         uses: pr-mpt/actions-commit-hash@v2
 
       - name: Get commit messages
+        env:
+          COMMITS_JSON: ${{ toJSON(github.event.commits) }}
         run: |
           COMMIT_MESSAGES=""
-          commits="${{ toJSON(github.event.commits) }}"
-          echo "${commits}"
-          length=$(jq length <<< "${commits}")
-          echo "${length}"
+          echo "${COMMITS_JSON}"
+          length=$(jq length <<< $COMMITS_JSON)
+          echo ${length}
