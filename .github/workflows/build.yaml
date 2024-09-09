@@ -1,0 +1,33 @@
+name: test ci
+
+on:
+  push:
+    branches: ["main"]
+
+env:
+  PROJECT_NAME: Test-Project
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get Git tag name
+        id: commit
+        uses: pr-mpt/actions-commit-hash@v2
+
+      - name: Get commit messages
+        run: |
+          COMMIT_MESSAGES=""
+          length=$(jq length <<< '${{ toJSON(github.event.commits) }}')
+
+          for (( i = 0; i < $length; i++ )); do
+            author=$(echo '${{ toJSON(github.event.commits) }}' | jq ".[$i].author.name")
+            commit=$(echo '${{ toJSON(github.event.commits) }}' | jq ".[$i].message")
+            author_without_quotes=$(sed 's/"//g' <<< "$author")
+            message_without_quotes=$(sed 's/"//g' <<< "$commit")
+            COMMIT_MESSAGES="${COMMIT_MESSAGES}\n• \`$author_without_quotes\` $message_without_quotes"
+          done
+
+          echo $COMMIT_MESSAGES
