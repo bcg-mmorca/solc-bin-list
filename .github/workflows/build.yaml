@@ -22,14 +22,14 @@ jobs:
           COMMIT_MESSAGES=""
           commits=${{ toJSON(github.event.commits) }}
           echo $commits
-          length=$(jq length <<< "${{ toJSON(github.event.commits) }}")
+          length=$(jq length <<< $commits)
 
-        #   for (( i = 0; i < $length; i++ )); do
-        #     author=$(echo '${{ toJSON(github.event.commits) }}' | jq ".[$i].author.name")
-        #     commit=$(echo '${{ toJSON(github.event.commits) }}' | jq ".[$i].message")
-        #     author_without_quotes=$(sed 's/"//g' <<< "$author")
-        #     message_without_quotes=$(sed 's/"//g' <<< "$commit")
-        #     COMMIT_MESSAGES="${COMMIT_MESSAGES}\n• \`$author_without_quotes\` $message_without_quotes"
-        #   done
+          for (( i = 0; i < $length; i++ )); do
+            author=$(echo $commits | jq ".[$i].author.name")
+            commit=$(echo $commits | jq ".[$i].message")
+            author_without_quotes=$(sed 's/"//g' <<< "$author")
+            message_without_quotes=$(sed 's/"//g' <<< "$commit")
+            COMMIT_MESSAGES="${COMMIT_MESSAGES}\n• \`$author_without_quotes\` $message_without_quotes"
+          done
 
-        #   echo $COMMIT_MESSAGES
+          echo $COMMIT_MESSAGES
