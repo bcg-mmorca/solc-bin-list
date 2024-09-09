@@ -24,13 +24,3 @@ jobs:
           echo "${commits}"
           length=$(jq length <<< "${commits}")
           echo "${length}"
-
-        #   for (( i = 0; i < $length; i++ )); do
-        #     author=$(echo ${commits} | jq ".[$i].author.name")
-        #     commit=$(echo ${commits} | jq ".[$i].message")
-        #     author_without_quotes=$(sed 's/"//g' <<< $author)
-        #     message_without_quotes=$(sed 's/"//g' <<< $commit)
-        #     COMMIT_MESSAGES="${COMMIT_MESSAGES}\n• \`$author_without_quotes\` $message_without_quotes"
-        #   done
-
-        #   echo $COMMIT_MESSAGES
